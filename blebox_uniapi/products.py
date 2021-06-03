@@ -119,12 +119,13 @@ class Products:
                 ],
             },
             "shutterBox": {
-                "api_path": "/api/shutter/state",
+                "api_path": "/api/shutter/extended/state",
                 "api_level_range": [20180604, 20190911],
                 "api": {
                     "open": lambda x=None: ("GET", "/s/u", None),
                     "close": lambda x=None: ("GET", "/s/d", None),
                     "position": lambda x: ("GET", "/s/p/" + str(x), None),
+                    "tilt": lambda x: ("GET", "/s/t/" + str(x), None),
                     "stop": lambda x=None: ("GET", "/s/s", None),
                 },
                 "covers": [

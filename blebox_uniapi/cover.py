@@ -35,11 +35,19 @@ class Gate:
     def read_has_stop(self, alias, raw_value, product):
         return True
 
+    @property
+    def has_tilt(self):
+        return False
+
 
 class Shutter(Gate):
     @property
     def min_position(self):
         return -1  # "unknown"
+
+    @property
+    def has_tilt(self):
+        return True
 
 
 class GateBox(Gate):
@@ -157,6 +165,12 @@ class Cover(Feature):
             raise NotImplementedError
 
         await self.async_api_command("position", value)
+
+    async def async_set_tilt(self, value):
+        if not self.is_slider:
+            raise NotImplementedError
+
+        await self.async_api_command("tilt", value)
 
     def _read_desired(self):
         product = self._product
