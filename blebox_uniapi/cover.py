@@ -13,6 +13,10 @@ class Gate:
         min_position = self.min_position
         return product.expect_int(alias, raw, 100, min_position)
 
+    def read_tilt(self, alias, raw_value, product):
+        raw = raw_value("tilt")
+        return product.expect_int(alias, raw, 100, 0)
+
     @property
     def min_position(self):
         return 0
@@ -140,6 +144,10 @@ class Cover(Feature):
         return self._desired
 
     @property
+    def tilt(self):
+        return self._tilt
+
+    @property
     def state(self):
         return self._state
 
@@ -180,6 +188,14 @@ class Cover(Feature):
         alias = self._alias
         return self._attributes.read_desired(alias, self.raw_value, self._product)
 
+    def _read_tilt(self):
+        product = self._product
+        if not product.last_data:
+            return None
+
+        alias = self._alias
+        return self._attributes.read_tilt(alias, self.raw_value, self._product)
+
     # TODO: refactor
     def _read_state(self):
         product = self._product
@@ -196,5 +212,6 @@ class Cover(Feature):
 
     def after_update(self):
         self._desired = self._read_desired()
+        self._tilt = self._read_tilt()
         self._state = self._read_state()
         self._has_stop = self._read_has_stop()

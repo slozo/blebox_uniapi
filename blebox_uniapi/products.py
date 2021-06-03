@@ -135,6 +135,7 @@ class Products:
                             "desired": "shutter/desiredPos/position",
                             # "current": "shutter/currentPos/position",
                             "state": "shutter/state",
+                            "tilt": "shutter/desiredPos/tilt"
                         },
                         "shutter",
                     ]
